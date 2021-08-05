@@ -21,5 +21,8 @@ jobs:
       inputs:
       - name: repo
       run:
-        path: ls
-        args: ["-lah"]
+        path: sh
+        args:
+        - -cx
+        - |
+          ls -lah repo
