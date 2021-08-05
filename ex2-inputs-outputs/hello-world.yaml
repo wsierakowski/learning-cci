@@ -1,0 +1,35 @@
+jobs:
+- name: hello-world-job
+  plan:
+  - task: hello-world-task
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: busybox
+      run:
+        path: sh
+        args:
+        - -cx
+        - |
+          echo "hello from another step!" > the-artifact/message.txt
+          ls -lah the-artifact
+      outputs:
+      - name: the-artifact
+  - task: read-the-artifact
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: busybox
+      run:
+        path: sh
+        args:
+        - -cx
+        - |
+          ls -lah the-artifact
+          cat the-artifact/message.txt
+      inputs:
+      - name: the-artifact
