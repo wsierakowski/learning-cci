@@ -1,3 +1,4 @@
+http://localhost:8080/teams/main/pipelines/hello-world/
 
 ## 1. Creating a job
 
@@ -12,6 +13,10 @@ $ fly -t tutorial unpause-pipeline -p hello-world
 
 # trigger the job and watch it run to completion
 $ fly -t tutorial trigger-job --job hello-world/hello-world-job --watch
+```
+
+```
+$ fly builds -t tutorial
 ```
 
 ## 2. Supplementary
@@ -29,3 +34,6 @@ bosh-io-release, bosh-io-stemcell, cf, docker-image, git, github-release, hg, mo
 
 Resource source definitions:
 - https://github.com/concourse/git-resource
+
+Resource types:
+- https://resource-types.concourse-ci.org/
