@@ -1,0 +1,40 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/wsierakowski/learning-cci.git
+    branch: main
+    username: type_your_own
+    password: type_your_own
+
+jobs:
+- name: hello-world-job
+  plan:
+  # Add a get step referencing the resource
+  - get: repo
+    # tell Concourse to trigger this job when new versions are emitted
+    # trigger: true
+  - put: repo
+    params:
+      repository: repo
+  - task: create-commit
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: gitea/gitea
+      inputs:
+      - name: repo
+      run:
+        path: sh
+        args:
+        - -cx
+        - |
+          cd repo
+          ls -lah repo
+          date +%Y-%m-%d > todays-date.txt
+          git config user.email type_your_own@gmail.com
+          git config user.name type_your_own
+          git add ./todays-date.txt
+          git commit -m "update todays date (resource put example)"
